@@ -3,8 +3,8 @@
 ## Integrantes
 
 - Yeisner Giraldo
-- Samuel
-- 
+- Samuel García 
+- Juan Sebastian Leal
 
 ## Descripción
 
