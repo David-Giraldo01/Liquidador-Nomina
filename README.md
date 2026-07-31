@@ -8,7 +8,7 @@
 
 ## Descripción
 
-Aplicación desarrollada en Java que permite calcular la liquidación de nómina de un empleado teniendo en cuenta los valores devengados y las deducciones de ley. El proyecto incluye pruebas unitarias para validar el correcto funcionamiento del sistema.
+Aplicación desarrollada en Python o Java que permite calcular la liquidación de nómina de un empleado teniendo en cuenta los valores devengados y las deducciones de ley. El proyecto incluye pruebas unitarias para validar el correcto funcionamiento del sistema.
 
 ## Entradas
 
