@@ -1,5 +1,14 @@
 def calcular_nomina(salario, dias, bonificacion, comision, descuentos):
 
+    if dias < 0 or dias > 30:
+     raise ValueError("Los dias deben estar entre 0 y 30")
+
+    if salario < 0:
+     raise ValueError("El salario no puede ser negativo")
+
+    if descuentos < 0:
+     raise ValueError("Los descuentos no pueden ser negativos")
+
     salario_proporcional = salario / 30 * dias
 
     total_devengado = (
