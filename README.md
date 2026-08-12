@@ -12,24 +12,17 @@ Aplicación desarrollada en Python que permite calcular la liquidación de nómi
 
 ## Entradas
 
-- Nombre del empleado
-- Documento de identidad
 - Salario básico
 - Días trabajados
-- Horas extras diurnas
-- Horas extras nocturnas
-- Horas dominicales o festivas
-- Auxilio de transporte
 - Bonificaciones
 - Comisiones
-- Descuentos
+- Otros Descuentos
 - Porcentaje de salud
 - Porcentaje de pensión
 
 ## Procesos
 
 - Calcular salario proporcional.
-- Calcular horas extras.
 - Calcular horas dominicales.
 - Calcular bonificaciones y comisiones.
 - Obtener el total devengado.
@@ -39,7 +32,6 @@ Aplicación desarrollada en Python que permite calcular la liquidación de nómi
 
 ## Salidas
 
-- Valor de horas extras.
 - Total devengado.
 - Descuento por salud.
 - Descuento por pensión.
