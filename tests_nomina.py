@@ -1,5 +1,5 @@
 import unittest
-from src import logica_nomina
+import logica_nomina
 
 class TestsNomina(unittest.TestCase):
 
