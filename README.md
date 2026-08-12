@@ -3,63 +3,62 @@
 ## Integrantes
 
 - Yeisner Giraldo
-- Samuel García 
+- Samuel García
 - Juan Sebastian Leal
 
 ## Descripción
 
-Aplicación desarrollada en Python que permite calcular la liquidación de nómina de un empleado teniendo en cuenta los valores devengados y las deducciones de ley. El proyecto incluye pruebas unitarias para validar el correcto funcionamiento del sistema.
+Aplicación desarrollada en Python que permite calcular la liquidación de nómina de un empleado teniendo en cuenta el salario básico, los días trabajados, las bonificaciones, las comisiones y otros descuentos.
+
+El sistema calcula las deducciones correspondientes a salud y pensión y obtiene el valor neto a pagar.
+
+El proyecto incluye pruebas unitarias desarrolladas con `unittest` para validar el correcto funcionamiento de la lógica del sistema.
 
 ## Entradas
 
-- Salario básico
-- Días trabajados
-- Bonificaciones
-- Comisiones
-- Otros Descuentos
-- Porcentaje de salud
-- Porcentaje de pensión
+- Salario básico.
+- Días trabajados.
+- Bonificación.
+- Comisión.
+- Otros descuentos.
 
 ## Procesos
 
-- Calcular salario proporcional.
-- Calcular horas dominicales.
-- Calcular bonificaciones y comisiones.
+- Validar los datos ingresados.
+- Calcular el salario proporcional según los días trabajados.
+- Sumar bonificaciones y comisiones.
 - Obtener el total devengado.
-- Calcular descuentos por salud y pensión.
-- Calcular deducciones.
+- Calcular el descuento de salud.
+- Calcular el descuento de pensión.
+- Calcular el total de deducciones.
 - Obtener el neto a pagar.
 
 ## Salidas
 
 - Total devengado.
-- Descuento por salud.
-- Descuento por pensión.
-- Total deducciones.
+- Total de deducciones.
 - Neto a pagar.
 
 ## Arquitectura del proyecto
 
-El proyecto está organizado en carpetas para separar la lógica del programa, las pruebas y la documentación.
+El proyecto está organizado de forma simple para facilitar la ejecución de la lógica, la interfaz de consola y las pruebas unitarias.
 
 ```text
 Liquidador-Nomina/
 ├── docs/
-│   ├── AUDIO EXPLICACION.ogg
-│   ├── PRUEBAS UNITARIAS CORREGIDAS Y REAL.xlsx
-│   └── Pruebas_Unitarias_Liquidador_Nomina.xlsx
-├── src/
-│   ├── logica_nomina.py
-│   └── consola.py
-├── test/
-│   └── tests_nomina.py
+├── consola.py
+├── logica_nomina.py
+├── tests_nomina.py
 ├── .gitignore
 └── README.md
-### Descripción de las carpetas
+```
 
-- `src/`: contiene la lógica principal para realizar el cálculo de la nómina.
-- `test/`: contiene las pruebas unitarias desarrolladas con `unittest`.
-- `docs/`: contiene la matriz original de casos de prueba de la primera entrega, la matriz actualizada de pruebas unitarias y el archivo de explicación del proyecto.
+## Descripción de los archivos
+
+- `logica_nomina.py`: contiene la lógica principal para realizar el cálculo de la nómina.
+- `consola.py`: contiene la interfaz de consola para ingresar los datos y mostrar el resultado.
+- `tests_nomina.py`: contiene las pruebas unitarias desarrolladas con `unittest`.
+- `docs/`: contiene la matriz de casos de prueba y demás documentación del proyecto.
 - `README.md`: contiene la descripción general del proyecto y las instrucciones para su ejecución.
 
 ## Ejecución de las pruebas unitarias
@@ -67,7 +66,7 @@ Liquidador-Nomina/
 Para ejecutar las pruebas unitarias, ubicarse desde la terminal en la carpeta principal del proyecto y ejecutar:
 
 ```bash
-python -m unittest test.tests_nomina
+python -m unittest tests_nomina
 ```
 
 Actualmente el proyecto cuenta con 10 pruebas unitarias:
@@ -79,6 +78,7 @@ Actualmente el proyecto cuenta con 10 pruebas unitarias:
 Si todas las pruebas se ejecutan correctamente, la terminal mostrará un resultado similar a:
 
 ```text
+..........
 Ran 10 tests in ...
 OK
 ```
@@ -88,7 +88,7 @@ OK
 Para ejecutar la interfaz de consola, ubicarse desde la terminal en la carpeta principal del proyecto y ejecutar:
 
 ```bash
-python src/consola.py
+python consola.py
 ```
 
 La aplicación solicitará los siguientes datos:
@@ -101,7 +101,7 @@ La aplicación solicitará los siguientes datos:
 
 Después de ingresar los datos, el programa calculará y mostrará el neto a pagar.
 
-Ejemplo:
+## Ejemplo de ejecución
 
 ```text
 === LIQUIDADOR DE NÓMINA ===
