@@ -1,5 +1,4 @@
-from logica_nomina import calcular_nomina
-
+from src.model.logica_nomina import calcular_nomina
 
 def main():
     print("=== LIQUIDADOR DE NÓMINA ===")

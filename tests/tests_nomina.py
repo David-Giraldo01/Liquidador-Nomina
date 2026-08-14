@@ -1,5 +1,5 @@
 import unittest
-import logica_nomina
+from src.model import logica_nomina
 
 class TestsNomina(unittest.TestCase):
 
@@ -57,6 +57,7 @@ class TestsNomina(unittest.TestCase):
             neto_esperado,
             neto_calculado,
             2
+
         )
 
     def test_normal_3(self):
