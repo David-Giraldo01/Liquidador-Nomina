@@ -66,7 +66,7 @@ Liquidador-Nomina/
 Para ejecutar las pruebas unitarias, ubicarse desde la terminal en la carpeta principal del proyecto y ejecutar:
 
 ```bash
-python -m unittest tests_nomina
+py -m unittest tests_nomina
 ```
 
 Actualmente el proyecto cuenta con 10 pruebas unitarias:
