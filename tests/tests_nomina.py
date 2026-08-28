@@ -1,252 +1,65 @@
 import unittest
+
 from src.model import logica_nomina
+from src.model.errores import (
+    ErrorDescuentosNegativos,
+    ErrorDiasInvalidos,
+    ErrorSalarioNegativo,
+)
+
 
 class TestsNomina(unittest.TestCase):
 
-    def test_normal_1(self):
+    def test_normal_1(self) -> None:
+        neto_esperado: float = 2760000
+        neto_calculado: float = logica_nomina.calcular_nomina(3000000, 30, 0, 0, 0)
+        self.assertAlmostEqual(neto_esperado, neto_calculado, 2)
 
-        # ENTRADAS
-        salario = 3000000
-        dias = 30
-        bonificacion = 0
-        comision = 0
-        descuentos = 0
-
-        # SALIDA ESPERADA
-        neto_esperado = 2760000
-
-        # INVOCAR LA FUNCIONALIDAD
-        neto_calculado = logica_nomina.calcular_nomina(
-            salario,
-            dias,
-            bonificacion,
-            comision,
-            descuentos
+    def test_normal_2(self) -> None:
+        neto_esperado: float = 2760000
+        neto_calculado: float = logica_nomina.calcular_nomina(
+            2500000, 30, 200000, 300000, 0
         )
+        self.assertAlmostEqual(neto_esperado, neto_calculado, 2)
 
-        # VERIFICAR EL RESULTADO
-        self.assertAlmostEqual(
-            neto_esperado,
-            neto_calculado,
-            2
+    def test_normal_3(self) -> None:
+        neto_esperado: float = 4040000
+        neto_calculado: float = logica_nomina.calcular_nomina(
+            4000000, 30, 500000, 0, 100000
         )
+        self.assertAlmostEqual(neto_esperado, neto_calculado, 2)
 
-    def test_normal_2(self):
+    def test_extraordinario_1(self) -> None:
+        neto_esperado: float = 73600000
+        neto_calculado: float = logica_nomina.calcular_nomina(80000000, 30, 0, 0, 0)
+        self.assertAlmostEqual(neto_esperado, neto_calculado, 2)
 
-        # ENTRADAS
-        salario = 2500000
-        dias = 30
-        bonificacion = 200000
-        comision = 300000
-        descuentos = 0
+    def test_extraordinario_2(self) -> None:
+        neto_esperado: float = 1380000
+        neto_calculado: float = logica_nomina.calcular_nomina(3000000, 15, 0, 0, 0)
+        self.assertAlmostEqual(neto_esperado, neto_calculado, 2)
 
-        # SALIDA ESPERADA
-        neto_esperado = 2760000
+    def test_extraordinario_3(self) -> None:
+        neto_esperado: float = 7360000
+        neto_calculado: float = logica_nomina.calcular_nomina(3000000, 30, 0, 5000000, 0)
+        self.assertAlmostEqual(neto_esperado, neto_calculado, 2)
 
-        # INVOCAR LA FUNCIONALIDAD
-        neto_calculado = logica_nomina.calcular_nomina(
-            salario,
-            dias,
-            bonificacion,
-            comision,
-            descuentos
-        )
+    def test_error_dias_mayores_a_30(self) -> None:
+        with self.assertRaises(ErrorDiasInvalidos):
+            logica_nomina.calcular_nomina(3000000, 31, 0, 0, 0)
 
-        # VERIFICAR EL RESULTADO
-        self.assertAlmostEqual(
-            neto_esperado,
-            neto_calculado,
-            2
+    def test_error_salario_negativo(self) -> None:
+        with self.assertRaises(ErrorSalarioNegativo):
+            logica_nomina.calcular_nomina(-3000000, 30, 0, 0, 0)
 
-        )
+    def test_error_dias_negativos(self) -> None:
+        with self.assertRaises(ErrorDiasInvalidos):
+            logica_nomina.calcular_nomina(3000000, -1, 0, 0, 0)
 
-    def test_normal_3(self):
+    def test_error_descuentos_negativos(self) -> None:
+        with self.assertRaises(ErrorDescuentosNegativos):
+            logica_nomina.calcular_nomina(3000000, 30, 0, 0, -100000)
 
-        # ENTRADAS
-        salario = 4000000
-        dias = 30
-        bonificacion = 500000
-        comision = 0
-        descuentos = 100000
-
-        # SALIDA ESPERADA
-        neto_esperado = 4040000
-
-        # INVOCAR LA FUNCIONALIDAD
-        neto_calculado = logica_nomina.calcular_nomina(
-            salario,
-            dias,
-            bonificacion,
-            comision,
-            descuentos
-        )
-
-        # VERIFICAR EL RESULTADO
-        self.assertAlmostEqual(
-            neto_esperado,
-            neto_calculado,
-            2
-        )
-
-    def test_extraordinario_1(self):
-
-        # ENTRADAS
-        salario = 80000000
-        dias = 30
-        bonificacion = 0
-        comision = 0
-        descuentos = 0
-
-        # SALIDA ESPERADA
-        neto_esperado = 73600000
-
-        # INVOCAR LA FUNCIONALIDAD
-        neto_calculado = logica_nomina.calcular_nomina(
-            salario,
-            dias,
-            bonificacion,
-            comision,
-            descuentos
-        )
-
-        # VERIFICAR EL RESULTADO
-        self.assertAlmostEqual(
-            neto_esperado,
-            neto_calculado,
-            2
-        )
-
-    def test_extraordinario_2(self):
-
-        # ENTRADAS
-        salario = 3000000
-        dias = 15
-        bonificacion = 0
-        comision = 0
-        descuentos = 0
-
-        # SALIDA ESPERADA
-        neto_esperado = 1380000
-
-        # INVOCAR LA FUNCIONALIDAD
-        neto_calculado = logica_nomina.calcular_nomina(
-            salario,
-            dias,
-            bonificacion,
-            comision,
-            descuentos
-        )
-
-        # VERIFICAR EL RESULTADO
-        self.assertAlmostEqual(
-            neto_esperado,
-            neto_calculado,
-            2
-        )
-
-    def test_extraordinario_3(self):
-
-        # ENTRADAS
-        salario = 3000000
-        dias = 30
-        bonificacion = 0
-        comision = 5000000
-        descuentos = 0
-
-        # SALIDA ESPERADA
-        neto_esperado = 7360000
-
-        # INVOCAR LA FUNCIONALIDAD
-        neto_calculado = logica_nomina.calcular_nomina(
-            salario,
-            dias,
-            bonificacion,
-            comision,
-            descuentos
-        )
-
-        # VERIFICAR EL RESULTADO
-        self.assertAlmostEqual(
-            neto_esperado,
-            neto_calculado,
-            2
-        )
-
-    def test_error_1(self):
-
-        # ENTRADAS
-        salario = 3000000
-        dias = 31
-        bonificacion = 0
-        comision = 0
-        descuentos = 0
-
-        # VERIFICAR EL ERROR
-        with self.assertRaises(ValueError):
-            logica_nomina.calcular_nomina(
-                salario,
-                dias,
-                bonificacion,
-                comision,
-                descuentos
-            )
-
-    def test_error_2(self):
-
-        # ENTRADAS
-        salario = -3000000
-        dias = 30
-        bonificacion = 0
-        comision = 0
-        descuentos = 0
-
-        # VERIFICAR EL ERROR
-        with self.assertRaises(ValueError):
-            logica_nomina.calcular_nomina(
-                salario,
-                dias,
-                bonificacion,
-                comision,
-                descuentos
-            )
-
-    def test_error_3(self):
-
-        # ENTRADAS
-        salario = 3000000
-        dias = -1
-        bonificacion = 0
-        comision = 0
-        descuentos = 0
-
-        # VERIFICAR EL ERROR
-        with self.assertRaises(ValueError):
-            logica_nomina.calcular_nomina(
-                salario,
-                dias,
-                bonificacion,
-                comision,
-                descuentos
-            )
-
-    def test_error_4(self):
-
-        # ENTRADAS
-        salario = 3000000
-        dias = 30
-        bonificacion = 0
-        comision = 0
-        descuentos = -100000
-
-        # VERIFICAR EL ERROR
-        with self.assertRaises(ValueError):
-            logica_nomina.calcular_nomina(
-                salario,
-                dias,
-                bonificacion,
-                comision,
-                descuentos
-            )
 
 if __name__ == "__main__":
     unittest.main()

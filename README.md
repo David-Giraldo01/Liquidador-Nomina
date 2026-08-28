@@ -41,23 +41,34 @@ El proyecto incluye pruebas unitarias desarrolladas con `unittest` para validar 
 
 ## Arquitectura del proyecto
 
-El proyecto está organizado de forma simple para facilitar la ejecución de la lógica, la interfaz de consola y las pruebas unitarias.
+El proyecto está organizado por capas: la lógica de negocio en `src/model`, la interfaz de consola en `src/view` y las pruebas en `tests`.
 
 ```text
 Liquidador-Nomina/
+├── src/
+│   ├── model/
+│   │   ├── constantes.py
+│   │   ├── errores.py
+│   │   ├── logica_nomina.py
+│   │   └── validacion.py
+│   └── view/
+│       └── console/
+│           └── consola.py
+├── tests/
+│   └── tests_nomina.py
 ├── docs/
-├── consola.py
-├── logica_nomina.py
-├── tests_nomina.py
 ├── .gitignore
 └── README.md
 ```
 
 ## Descripción de los archivos
 
-- `logica_nomina.py`: contiene la lógica principal para realizar el cálculo de la nómina.
-- `consola.py`: contiene la interfaz de consola para ingresar los datos y mostrar el resultado.
-- `tests_nomina.py`: contiene las pruebas unitarias desarrolladas con `unittest`.
+- `src/model/constantes.py`: contiene las constantes del cálculo (días del mes, tasas de descuento).
+- `src/model/errores.py`: contiene los errores personalizados e indica qué sucedió, por qué, dónde y cómo se soluciona.
+- `src/model/logica_nomina.py`: contiene la lógica principal de cálculo dividida en funciones con responsabilidades específicas.
+- `src/model/validacion.py`: contiene la clase que valida las entradas antes de calcular.
+- `src/view/console/consola.py`: contiene la interfaz de consola para ingresar los datos y mostrar el resultado.
+- `tests/tests_nomina.py`: contiene las pruebas unitarias desarrolladas con `unittest`.
 - `docs/`: contiene la matriz de casos de prueba y demás documentación del proyecto.
 - `README.md`: contiene la descripción general del proyecto y las instrucciones para su ejecución.
 
@@ -66,7 +77,7 @@ Liquidador-Nomina/
 Para ejecutar las pruebas unitarias, ubicarse desde la terminal en la carpeta principal del proyecto y ejecutar:
 
 ```bash
-py -m unittest tests_nomina
+py -m unittest tests.tests_nomina
 ```
 
 Actualmente el proyecto cuenta con 10 pruebas unitarias:
@@ -88,7 +99,7 @@ OK
 Para ejecutar la interfaz de consola, ubicarse desde la terminal en la carpeta principal del proyecto y ejecutar:
 
 ```bash
-python consola.py
+python -m src.view.console.consola
 ```
 
 La aplicación solicitará los siguientes datos:
