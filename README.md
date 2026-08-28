@@ -49,6 +49,7 @@ Liquidador-Nomina/
 │   ├── model/
 │   │   ├── constantes.py
 │   │   ├── errores.py
+│   |   ├── datos_nomina.py  
 │   │   ├── logica_nomina.py
 │   │   └── validacion.py
 │   └── view/
