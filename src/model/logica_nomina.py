@@ -4,7 +4,7 @@ from src.model.constantes import (
     TASA_DESCUENTO_SALUD,
 )
 from src.model.validacion import ValidadorNomina
-
+from src.model.datos_nomina import DatosNomina
 
 def calcular_salario_proporcional(salario: float, dias: int )-> float:
     return salario / DIAS_MES * dias
@@ -24,14 +24,30 @@ def calcular_neto_pagar(total_devengado: float , total_deducciones: float)-> flo
     return total_devengado - total_deducciones
 
 
-def calcular_nomina(salario:float, dias: int, bonificacion: float, comision: float, descuentos:float)-> float:
-    ValidadorNomina(salario, dias, descuentos).validar()
+def calcular_nomina(datos: DatosNomina) -> float:
+    ValidadorNomina(
+        datos.salario,
+        datos.dias,
+        datos.descuentos
+    ).validar()
 
-    salario_proporcional = calcular_salario_proporcional(salario, dias)
+    salario_proporcional = calcular_salario_proporcional(
+        datos.salario,
+        datos.dias
+    )
+
     total_devengado = calcular_total_devengado(
         salario_proporcional,
-        bonificacion,
-        comision,
+        datos.bonificacion,
+        datos.comision,
     )
-    total_deducciones = calcular_total_deducciones(total_devengado, descuentos)
-    return calcular_neto_pagar(total_devengado, total_deducciones)
+
+    total_deducciones = calcular_total_deducciones(
+        total_devengado,
+        datos.descuentos
+    )
+
+    return calcular_neto_pagar(
+        total_devengado,
+        total_deducciones
+    )
