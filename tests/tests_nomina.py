@@ -1,7 +1,14 @@
+import sys
 import unittest
+from pathlib import Path
 
-from src.model import logica_nomina
-from src.model.errores import (
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+SRC_PATH = PROJECT_ROOT / "src"
+
+sys.path.insert(0, str(SRC_PATH))
+
+from model import logica_nomina
+from model.errores import (
     ErrorDescuentosNegativos,
     ErrorDiasInvalidos,
     ErrorSalarioNegativo,
