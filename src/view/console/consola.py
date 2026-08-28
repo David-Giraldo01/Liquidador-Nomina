@@ -1,3 +1,4 @@
+from src.model.datos_nomina import DatosNomina
 from src.model.logica_nomina import calcular_nomina
 
 def main():
@@ -10,13 +11,15 @@ def main():
         comision = float(input("Ingrese la comisión: "))
         descuentos = float(input("Ingrese otros descuentos: "))
 
-        neto = calcular_nomina(
-            salario,
-            dias,
-            bonificacion,
-            comision,
-            descuentos
+        datos = DatosNomina(
+            salario=salario,
+            dias=dias,
+            bonificacion=bonificacion,
+            comision=comision,
+            descuentos=descuentos,
         )
+
+        neto = calcular_nomina(datos)
 
         print("\n=== RESULTADO ===")
         print(f"Neto a pagar: ${neto:,.2f}")
