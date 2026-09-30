@@ -3,6 +3,7 @@
 ## Integrantes
 
 - Sebastián Velásquez
+- Juan Camilo Garcia
 
 ## Descripción
 
