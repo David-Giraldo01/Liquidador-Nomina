@@ -76,7 +76,6 @@ Liquidador-Nomina/
 │   └── tests_nomina.py
 ├── docs/
 ├── .gitignore
-├── buildozer.spec
 └── README.md
 ```
 
@@ -92,7 +91,6 @@ Liquidador-Nomina/
 - `src/view/Gui/liquidador.py`: contiene la interfaz gráfica experimental en Kivy para ingresar datos, calcular el neto, limpiar el formulario y presentar mensajes de error amigables.
 - `tests/tests_nomina.py`: contiene las pruebas unitarias desarrolladas con `unittest`.
 - `docs/`: contiene la matriz de casos de prueba y demás documentación del proyecto.
-- `buildozer.spec`: contiene la configuración requerida por Buildozer para generar el APK Android.
 - `README.md`: contiene la descripción general del proyecto y las instrucciones para su ejecución.
 
 ## Requisitos
