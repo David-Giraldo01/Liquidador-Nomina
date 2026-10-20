@@ -1,2 +1,9 @@
 ﻿__pycache__/
 .idea/
+# Configuración privada de la base de datos
+secret_config.py
+
+# Entorno virtual y archivos temporales de Python
+.venv/
+__pycache__/
+*.pyc
