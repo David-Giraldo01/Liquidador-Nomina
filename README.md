@@ -490,7 +490,7 @@ La aplicación publicada utiliza los siguientes parámetros:
 | Rama | `entrega-5-web` |
 | Root Directory | Vacío; se utiliza la raíz del repositorio. |
 | Build Command | `pip install -r requirements-web.txt` |
-| Start Command | `gunicorn app:app` |
+| Start Command | `gunicorn app:app --bind 0.0.0.0:$PORT --access-logfile - --error-logfile -` |
 | Health Check Path | `/` |
 
 La expresión `app:app` indica el módulo `app.py` y la instancia de Flask llamada `app`.
