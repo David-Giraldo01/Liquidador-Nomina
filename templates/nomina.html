@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+    {% set campos = valores or {} %}
+
+    {% if error %}
+        <section role="alert">
+            <h2>No se pudo completar la operación</h2>
+
+            {% for linea in error.splitlines() %}
+                <p>{{ linea }}</p>
+            {% endfor %}
+        </section>
+    {% endif %}
+
+    <h2>Datos de la nómina</h2>
+
+    <p>
+        Ingresa los datos para calcular el neto a pagar.
+        Para guardar el resultado, utiliza «Calcular y guardar».
+    </p>
+
+    <form action="{{ url_for('nomina.calcular') }}" method="post">
+        <p>
+            <label for="salario">Salario básico:</label>
+            <input
+                id="salario"
+                name="salario"
+                type="number"
+                min="0"
+                step="0.01"
+                value="{{ campos.get('salario', '') }}"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="dias">Días trabajados:</label>
+            <input
+                id="dias"
+                name="dias"
+                type="number"
+                min="0"
+                max="30"
+                step="1"
+                value="{{ campos.get('dias', '') }}"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="bonificacion">Bonificación:</label>
+            <input
+                id="bonificacion"
+                name="bonificacion"
+                type="number"
+                min="0"
+                step="0.01"
+                value="{{ campos.get('bonificacion', 0) }}"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="comision">Comisión:</label>
+            <input
+                id="comision"
+                name="comision"
+                type="number"
+                min="0"
+                step="0.01"
+                value="{{ campos.get('comision', 0) }}"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="descuentos">Otros descuentos:</label>
+            <input
+                id="descuentos"
+                name="descuentos"
+                type="number"
+                min="0"
+                step="0.01"
+                value="{{ campos.get('descuentos', 0) }}"
+                required
+            >
+        </p>
+
+        <button type="submit">Calcular</button>
+
+        <button
+            type="submit"
+            formaction="{{ url_for('nomina.guardar') }}"
+        >
+            Calcular y guardar
+        </button>
+
+        <a href="{{ url_for('nomina.calcular') }}">
+            Limpiar formulario
+        </a>
+    </form>
+
+    {% if resultado is defined %}
+        <section aria-live="polite">
+            <h2>Resultado</h2>
+            <p><strong>Neto a pagar: {{ resultado }}</strong></p>
+        </section>
+    {% endif %}
+
+    {% if id_guardado %}
+        <section>
+            <h2>Nómina guardada</h2>
+
+            <p>Estos datos fueron consultados en la base de datos.</p>
+
+            <p>
+                <strong>ID de la nómina:</strong>
+                <code>{{ id_guardado }}</code>
+            </p>
+
+            <p>Conserva este identificador para volver a consultarla.</p>
+        </section>
+    {% endif %}
+
+    <hr>
+
+    <section id="buscar">
+        <h2>Buscar una nómina</h2>
+
+        <p>Ingresa el identificador completo de una nómina guardada.</p>
+
+        <form action="{{ url_for('nomina.buscar') }}" method="get">
+            <p>
+                <label for="id_nomina">ID de la nómina:</label>
+                <input
+                    id="id_nomina"
+                    name="id_nomina"
+                    type="text"
+                    size="40"
+                    value="{{ id_busqueda or '' }}"
+                    required
+                >
+            </p>
+
+            <button type="submit">Buscar nómina</button>
+        </form>
+    </section>
+{% endblock %}

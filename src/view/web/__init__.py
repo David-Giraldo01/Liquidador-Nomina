@@ -1,0 +1,1 @@
+"""Interfaz web del Liquidador de Nómina."""
