@@ -164,6 +164,7 @@ class TestNominaController(unittest.TestCase):
             nomina,
         )
 
+
     # BORRAR TABLAS: CASO NORMAL Y DE ERROR
 
     def test_borrar_tablas(self):
@@ -171,7 +172,8 @@ class TestNominaController(unittest.TestCase):
         NominaController.insertar(nomina)
 
         NominaController.borrar_tablas()
-        }
+        
+
 
         with self.assertRaises(ErrorTablaNominaNoExiste):
             NominaController.buscar(nomina.id_nomina)
