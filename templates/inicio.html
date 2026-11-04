@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block titulo %}Inicio | Liquidador de Nómina{% endblock %}
+
+{% block contenido %}
+    <h2>Menú de inicio</h2>
+
+    <p>
+        Calcula el neto a pagar, guarda una nómina
+        y consulta los registros mediante su identificador.
+    </p>
+
+    <ul>
+        <li>
+            <a href="{{ url_for('nomina.calcular') }}">
+                Calcular una nómina y guardarla
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('nomina.buscar') }}#buscar">
+                Buscar una nómina guardada
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('nomina.crear_tablas') }}">
+                Crear las tablas de la base de datos
+            </a>
+        </li>
+    </ul>
+
+    <h2>Primer uso</h2>
+
+    <p>
+        Si configuraste una base de datos vacía, entra primero
+        en «Crear tablas». Después podrás guardar y buscar nóminas.
+    </p>
+{% endblock %}

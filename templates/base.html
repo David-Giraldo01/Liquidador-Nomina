@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titulo %}Liquidador de Nómina{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Liquidador de Nómina</h1>
+
+        <nav aria-label="Menú principal">
+            <a href="{{ url_for('nomina.inicio') }}">Inicio</a> |
+            <a href="{{ url_for('nomina.calcular') }}">
+                Calcular y guardar
+            </a> |
+            <a href="{{ url_for('nomina.buscar') }}#buscar">
+                Buscar nómina
+            </a> |
+            <a href="{{ url_for('nomina.crear_tablas') }}">
+                Crear tablas
+            </a>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+        {% block contenido %}{% endblock %}
+    </main>
+</body>
+</html>

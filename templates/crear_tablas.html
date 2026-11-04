@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block titulo %}Crear tablas | Liquidador de Nómina{% endblock %}
+
+{% block contenido %}
+    <h2>Crear las tablas de la base de datos</h2>
+
+    <p>
+        Utiliza esta opción cuando hayas configurado una base
+        de datos vacía y todavía no exista la tabla de nóminas.
+    </p>
+
+    <p>
+        Esta operación crea la tabla necesaria para guardar
+        y consultar nóminas. Conserva los datos si la tabla ya existe.
+    </p>
+
+    {% if mensaje %}
+        <p role="status"><strong>{{ mensaje }}</strong></p>
+    {% endif %}
+
+    {% if error %}
+        <section role="alert">
+            <h3>No se pudieron crear las tablas</h3>
+
+            {% for linea in error.splitlines() %}
+                <p>{{ linea }}</p>
+            {% endfor %}
+        </section>
+    {% endif %}
+
+    <form action="{{ url_for('nomina.crear_tablas') }}" method="post">
+        <button type="submit">Crear tablas</button>
+    </form>
+
+    <p>
+        <a href="{{ url_for('nomina.calcular') }}">
+            Ir al formulario de nómina
+        </a>
+    </p>
+{% endblock %}
