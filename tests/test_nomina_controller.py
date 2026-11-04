@@ -160,7 +160,7 @@ class TestNominaController(unittest.TestCase):
 
         self.assertEqual(
             NominaController.buscar(nomina.id_nomina),
-            
+
             nomina,
         )
 
@@ -171,6 +171,7 @@ class TestNominaController(unittest.TestCase):
         NominaController.insertar(nomina)
 
         NominaController.borrar_tablas()
+        }
 
         with self.assertRaises(ErrorTablaNominaNoExiste):
             NominaController.buscar(nomina.id_nomina)
