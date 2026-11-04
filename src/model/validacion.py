@@ -30,3 +30,5 @@ class ValidadorNomina:
     def _validar_descuentos(self)-> None:
         if self.descuentos < 0:
             raise ErrorDescuentosNegativos(self.descuentos)
+    
+    

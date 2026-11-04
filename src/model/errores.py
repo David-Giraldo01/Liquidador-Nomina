@@ -51,3 +51,92 @@ class ErrorDescuentosNegativos(ErrorNomina):
             "src/model/validacion.py (_validar_descuentos).",
             "Ingrese un valor de descuentos mayor o igual a cero.",
         )
+
+class ErrorIdNominaInvalido(ErrorNomina):
+
+    def __init__(self):
+        super().__init__(
+            "El identificador de la nómina no es válido.",
+            "El texto ingresado no tiene formato UUID.",
+            "Controlador de nómina: validación del identificador.",
+            "Copie el ID completo de una nómina guardada.",
+        )
+
+
+class ErrorNominaNoEncontrada(ErrorNomina):
+
+    def __init__(self, id_nomina):
+        super().__init__(
+            f"No existe una nómina con el ID {id_nomina}.",
+            "No se encontró un registro con ese identificador.",
+            "Controlador de nómina: búsqueda.",
+            "Verifique el ID e intente consultar nuevamente.",
+        )
+
+
+class ErrorNominaDuplicada(ErrorNomina):
+
+    def __init__(self, id_nomina):
+        super().__init__(
+            f"Ya existe una nómina con el ID {id_nomina}.",
+            "Se intentó insertar un identificador que ya está registrado.",
+            "Controlador de nómina: inserción.",
+            "Consulte la nómina existente o cree una nueva con otro ID.",
+        )
+
+
+class ErrorDatosNominaInvalidos(ErrorNomina):
+
+    def __init__(self):
+        super().__init__(
+            "Los datos de la nómina no cumplen las restricciones.",
+            "Uno o más valores no son admitidos por la base de datos.",
+            "Controlador de nómina: inserción.",
+            "Use importes no negativos y días enteros entre 0 y 30.",
+        )
+
+
+class ErrorTablaNominaExistente(ErrorNomina):
+
+    def __init__(self):
+        super().__init__(
+            "La tabla de nóminas ya existe.",
+            "Se intentó crear una tabla que ya estaba creada.",
+            "Controlador de nómina: creación de tablas.",
+            "Utilice la tabla existente para guardar y consultar nóminas.",
+        )
+
+
+class ErrorTablaNominaNoExiste(ErrorNomina):
+
+    def __init__(self):
+        super().__init__(
+            "La tabla de nóminas no existe.",
+            "La base de datos todavía no contiene la tabla requerida.",
+            "Controlador de nómina: operación sobre tablas.",
+            "Cree la tabla antes de insertar, consultar o eliminarla.",
+        )
+
+
+class ErrorConexionBD(ErrorNomina):
+
+    def __init__(self):
+        super().__init__(
+            "No fue posible establecer conexión con la base de datos.",
+            "El servidor no está disponible o la configuración es incorrecta.",
+            "Controlador de nómina: conexión con PostgreSQL.",
+            "Verifique la conexión a Internet, el servidor y los datos "
+            "de secret_config.py.",
+        )
+
+
+class ErrorOperacionBD(ErrorNomina):
+
+    def __init__(self):
+        super().__init__(
+            "No fue posible completar la operación en la base de datos.",
+            "PostgreSQL informó un error durante la operación.",
+            "Controlador de nómina.",
+            "Verifique la estructura de la tabla y los permisos "
+            "del usuario de la base de datos.",
+        )
