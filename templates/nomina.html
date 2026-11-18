@@ -32,6 +32,9 @@
                 value="{{ campos.get('salario', '') }}"
                 required
             >
+            <small id="auxilio-estimado" aria-live="polite">
+                Auxilio de transporte: se calcula al liquidar.
+            </small>
         </p>
 
         <p>
@@ -101,10 +104,78 @@
         </a>
     </form>
 
-    {% if resultado is defined %}
+    {% if detalle is defined %}
         <section aria-live="polite">
             <h2>Resultado</h2>
-            <p><strong>Neto a pagar: {{ resultado }}</strong></p>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <th scope="row">Salario básico</th>
+                        <td>{{ detalle.salario }}</td>
+                    </tr>
+
+                    {% if detalle.dias < 30 %}
+                        <tr>
+                            <th scope="row">
+                                Salario proporcional ({{ detalle.dias }} días)
+                            </th>
+                            <td>{{ detalle.salario_proporcional }}</td>
+                        </tr>
+                    {% endif %}
+
+                    <tr>
+                        <th scope="row">Auxilio de transporte</th>
+                        <td>
+                            {% if detalle.aplica_auxilio %}
+                                {{ detalle.auxilio_transporte }}
+                            {% else %}
+                                No aplica
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Bonificación</th>
+                        <td>{{ detalle.bonificacion }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Comisión</th>
+                        <td>{{ detalle.comision }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Total devengado</th>
+                        <td><strong>{{ detalle.total_devengado }}</strong></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Descuento de salud (4%)</th>
+                        <td>{{ detalle.descuento_salud }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Descuento de pensión (4%)</th>
+                        <td>{{ detalle.descuento_pension }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Otros descuentos</th>
+                        <td>{{ detalle.otros_descuentos }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Total deducciones</th>
+                        <td>{{ detalle.total_deducciones }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Neto a pagar</th>
+                        <td><strong>{{ resultado }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
     {% endif %}
 
@@ -146,4 +217,42 @@
             <button type="submit">Buscar nómina</button>
         </form>
     </section>
+
+    <script>
+        (function () {
+            const salario = document.getElementById("salario");
+            const aviso = document.getElementById("auxilio-estimado");
+
+            if (!salario || !aviso) {
+                return;
+            }
+
+            const AUXILIO = 261000;
+            const UMBRAL = 3500000;
+
+            function actualizarAuxilio() {
+                const valor = parseFloat(salario.value);
+
+                if (!Number.isFinite(valor)) {
+                    aviso.textContent =
+                        "Auxilio de transporte: se calcula al liquidar.";
+                    return;
+                }
+
+                if (valor < UMBRAL) {
+                    aviso.textContent =
+                        "Auxilio de transporte: $ " +
+                        AUXILIO.toLocaleString("es-CO") +
+                        " (se suma al total).";
+                } else {
+                    aviso.textContent =
+                        "Auxilio de transporte: no aplica " +
+                        "(salario igual o superior a $ 3.500.000).";
+                }
+            }
+
+            salario.addEventListener("input", actualizarAuxilio);
+            actualizarAuxilio();
+        })();
+    </script>
 {% endblock %}

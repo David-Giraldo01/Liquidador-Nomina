@@ -13,17 +13,18 @@ from kivy.utils import platform
 from src.controller.nomina_controller import NominaController
 from src.model.datos_nomina import DatosNomina
 from src.model.errores import ErrorNomina
-from src.model.logica_nomina import calcular_nomina
+from src.model.logica_nomina import calcular_detalle
 
 
 if platform not in ("android", "ios"):
-    Window.size = (560, 620)
+    Window.size = (560, 700)
 
 
 TITULO_ERROR_VALIDACION = "Error de validación"
 TITULO_ERROR_DATOS = "Datos inválidos"
 TITULO_ERROR_INESPERADO = "Error inesperado"
 TEXTO_RESULTADO_INICIAL = "$ 0.00"
+TEXTO_AUXILIO_INICIAL = "No aplica"
 
 
 class LiquidadorNominaApp(App):
@@ -104,33 +105,30 @@ class LiquidadorNominaApp(App):
         fila_botones.add_widget(boton_limpiar)
         raiz.add_widget(fila_botones)
 
-        fila_resultado = BoxLayout(
-            orientation="horizontal",
-            size_hint=(1, 0.18),
+        detalle_resultado = GridLayout(
+            cols=2,
+            spacing=10,
+            size_hint=(1, 0.26),
         )
 
-        etiqueta_resultado = Label(
-            text="Neto a pagar:",
-            bold=True,
-            halign="left",
-            valign="middle",
-            size_hint=(0.45, 1),
+        self.label_auxilio = self._agregar_valor(
+            detalle_resultado,
+            "Auxilio de transporte:",
+            TEXTO_AUXILIO_INICIAL,
         )
-        self._ajustar_texto(etiqueta_resultado)
-
-        self.label_resultado = Label(
-            text=TEXTO_RESULTADO_INICIAL,
-            bold=True,
-            font_size=20,
-            halign="right",
-            valign="middle",
-            size_hint=(0.55, 1),
+        self.label_total_devengado = self._agregar_valor(
+            detalle_resultado,
+            "Total devengado:",
+            TEXTO_RESULTADO_INICIAL,
         )
-        self._ajustar_texto(self.label_resultado)
+        self.label_resultado = self._agregar_valor(
+            detalle_resultado,
+            "Neto a pagar:",
+            TEXTO_RESULTADO_INICIAL,
+            resaltar=True,
+        )
 
-        fila_resultado.add_widget(etiqueta_resultado)
-        fila_resultado.add_widget(self.label_resultado)
-        raiz.add_widget(fila_resultado)
+        raiz.add_widget(detalle_resultado)
 
         boton_guardar = Button(
             text="Guardar nómina en la base de datos",
@@ -187,11 +185,35 @@ class LiquidadorNominaApp(App):
         contenedor.add_widget(campo)
         return campo
 
+    @staticmethod
+    def _agregar_valor(
+        contenedor: GridLayout,
+        texto: str,
+        valor_inicial: str,
+        resaltar: bool = False,
+    ) -> Label:
+        contenedor.add_widget(Label(text=texto))
+
+        etiqueta = Label(
+            text=valor_inicial,
+            bold=resaltar,
+            font_size=18 if resaltar else 15,
+            halign="right",
+            valign="middle",
+        )
+        etiqueta.bind(
+            size=lambda widget, tamanio: setattr(
+                widget, "text_size", tamanio
+            )
+        )
+        contenedor.add_widget(etiqueta)
+        return etiqueta
+
     def calcular(self, instance: Button) -> None:
         try:
             datos = self._leer_datos()
-            neto = calcular_nomina(datos)
-            self._mostrar_resultado(neto)
+            detalle = calcular_detalle(datos)
+            self._mostrar_resultado(detalle)
 
         except ErrorNomina as error:
             self._mostrar_mensaje(
@@ -219,12 +241,12 @@ class LiquidadorNominaApp(App):
             datos = self._leer_datos()
 
             # Aplicar las validaciones del modelo antes de guardar.
-            neto = calcular_nomina(datos)
+            detalle = calcular_detalle(datos)
 
             id_generado = NominaController.insertar(datos)
 
             self.input_id.text = str(id_generado)
-            self._mostrar_resultado(neto)
+            self._mostrar_resultado(detalle)
 
             self._mostrar_mensaje(
                 "Nómina guardada",
@@ -274,7 +296,7 @@ class LiquidadorNominaApp(App):
                 )
 
             datos = NominaController.buscar(id_nomina)
-            neto = calcular_nomina(datos)
+            detalle = calcular_detalle(datos)
 
             self.input_salario.text = f"{datos.salario:.2f}"
             self.input_dias.text = str(datos.dias)
@@ -285,7 +307,7 @@ class LiquidadorNominaApp(App):
             self.input_descuentos.text = f"{datos.descuentos:.2f}"
             self.input_id.text = datos.id_nomina
 
-            self._mostrar_resultado(neto)
+            self._mostrar_resultado(detalle)
 
             self._mostrar_mensaje(
                 "Nómina encontrada",
@@ -326,6 +348,8 @@ class LiquidadorNominaApp(App):
         for campo in campos:
             campo.text = ""
 
+        self.label_auxilio.text = TEXTO_AUXILIO_INICIAL
+        self.label_total_devengado.text = TEXTO_RESULTADO_INICIAL
         self.label_resultado.text = TEXTO_RESULTADO_INICIAL
 
     def _leer_datos(self) -> DatosNomina:
@@ -353,8 +377,18 @@ class LiquidadorNominaApp(App):
 
         return int(dias)
 
-    def _mostrar_resultado(self, neto: float) -> None:
-        self.label_resultado.text = f"$ {neto:,.2f}"
+    def _mostrar_resultado(self, detalle) -> None:
+        if detalle.aplica_auxilio_transporte:
+            self.label_auxilio.text = (
+                f"$ {detalle.auxilio_transporte:,.2f}"
+            )
+        else:
+            self.label_auxilio.text = "No aplica"
+
+        self.label_total_devengado.text = (
+            f"$ {detalle.total_devengado:,.2f}"
+        )
+        self.label_resultado.text = f"$ {detalle.neto_pagar:,.2f}"
 
     def _mostrar_mensaje(self, titulo: str, mensaje: str) -> None:
         contenido = BoxLayout(

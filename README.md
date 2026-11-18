@@ -114,6 +114,12 @@ Los importes deben ser números finitos y no negativos.
 
 El cálculo utiliza el salario proporcional a los días trabajados, incorpora bonificaciones y comisiones, calcula las deducciones de salud y pensión y aplica los otros descuentos.
 
+### Auxilio de transporte
+
+Cuando el salario básico es menor a `$3.500.000 COP`, el liquidador suma automáticamente `$261.000 COP` por concepto de auxilio de transporte. El auxilio se muestra por separado del salario básico y se incluye en el total devengado. Si el salario es igual o superior a `$3.500.000 COP`, no se agrega auxilio.
+
+Este cálculo se aplica en la interfaz web, la interfaz de escritorio con Kivy y la consola.
+
 La interfaz muestra el neto con formato monetario. Al guardar, también permite obtener el UUID para consultar el registro posteriormente.
 
 ## Requisitos para ejecutar localmente
@@ -409,9 +415,9 @@ En la creación web, el error de tabla existente se transforma en un mensaje que
 
 ## Pruebas automatizadas
 
-El proyecto conserva 22 pruebas automatizadas:
+El proyecto conserva 28 pruebas automatizadas:
 
-- 10 pruebas de la lógica de negocio.
+- 16 pruebas de la lógica de negocio.
 - 12 pruebas del controlador y su integración con PostgreSQL.
 
 Las pruebas del controlador requieren una conexión válida y un usuario con permiso para crear esquemas en la base configurada.

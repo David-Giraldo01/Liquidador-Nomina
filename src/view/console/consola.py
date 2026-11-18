@@ -1,5 +1,5 @@
 from src.model.datos_nomina import DatosNomina
-from src.model.logica_nomina import calcular_nomina
+from src.model.logica_nomina import calcular_detalle
 
 def main():
     print("=== LIQUIDADOR DE NÓMINA ===")
@@ -19,10 +19,22 @@ def main():
             descuentos=descuentos,
         )
 
-        neto = calcular_nomina(datos)
+        detalle = calcular_detalle(datos)
 
         print("\n=== RESULTADO ===")
-        print(f"Neto a pagar: ${neto:,.2f}")
+        print(f"Salario básico: ${detalle.salario:,.2f}")
+
+        if detalle.aplica_auxilio_transporte:
+            print(
+                "Auxilio de transporte: "
+                f"${detalle.auxilio_transporte:,.2f}"
+            )
+        else:
+            print("Auxilio de transporte: No aplica")
+
+        print(f"Total devengado: ${detalle.total_devengado:,.2f}")
+        print(f"Total deducciones: ${detalle.total_deducciones:,.2f}")
+        print(f"Neto a pagar: ${detalle.neto_pagar:,.2f}")
 
     except ValueError as error:
         print(f"\nError: {error}")

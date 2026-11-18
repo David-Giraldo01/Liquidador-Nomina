@@ -12,10 +12,29 @@ from src.model.errores import (
     ErrorTablaNominaExistente,
     ErrorTablaNominaNoExiste,
 )
-from src.model.logica_nomina import calcular_nomina
+from src.model.logica_nomina import calcular_detalle
 
 
 vista = Blueprint("nomina", __name__)
+
+
+def formatear_detalle(detalle):
+    """Prepara el desglose de la nómina con formato monetario."""
+    return {
+        "salario": f"$ {detalle.salario:,.2f}",
+        "salario_proporcional": f"$ {detalle.salario_proporcional:,.2f}",
+        "dias": detalle.dias,
+        "auxilio_transporte": f"$ {detalle.auxilio_transporte:,.2f}",
+        "aplica_auxilio": detalle.aplica_auxilio_transporte,
+        "bonificacion": f"$ {detalle.bonificacion:,.2f}",
+        "comision": f"$ {detalle.comision:,.2f}",
+        "total_devengado": f"$ {detalle.total_devengado:,.2f}",
+        "descuento_salud": f"$ {detalle.descuento_salud:,.2f}",
+        "descuento_pension": f"$ {detalle.descuento_pension:,.2f}",
+        "otros_descuentos": f"$ {detalle.otros_descuentos:,.2f}",
+        "total_deducciones": f"$ {detalle.total_deducciones:,.2f}",
+        "neto_pagar": f"$ {detalle.neto_pagar:,.2f}",
+    }
 
 
 def error_formulario(motivo):
@@ -99,7 +118,7 @@ def calcular():
 
     try:
         datos = leer_datos(valores)
-        neto = calcular_nomina(datos)
+        detalle = calcular_detalle(datos)
 
     except ErrorNomina as error:
         return mostrar_error(error, valores=valores)
@@ -107,7 +126,8 @@ def calcular():
     return render_template(
         "nomina.html",
         valores=valores,
-        resultado=f"$ {neto:,.2f}",
+        resultado=f"$ {detalle.neto_pagar:,.2f}",
+        detalle=formatear_detalle(detalle),
     )
 
 
@@ -119,7 +139,7 @@ def guardar():
         datos = leer_datos(valores)
 
         # Valida la nómina antes de guardarla.
-        calcular_nomina(datos)
+        calcular_detalle(datos)
 
         id_guardado = NominaController.insertar(datos)
 
@@ -160,7 +180,7 @@ def buscar():
 def ver_nomina(id_nomina):
     try:
         datos = NominaController.buscar(id_nomina)
-        neto = calcular_nomina(datos)
+        detalle = calcular_detalle(datos)
 
     except ErrorNomina as error:
         return mostrar_error(
@@ -180,7 +200,8 @@ def ver_nomina(id_nomina):
     return render_template(
         "nomina.html",
         valores=valores,
-        resultado=f"$ {neto:,.2f}",
+        resultado=f"$ {detalle.neto_pagar:,.2f}",
+        detalle=formatear_detalle(detalle),
         id_guardado=datos.id_nomina,
         id_busqueda=datos.id_nomina,
     )
