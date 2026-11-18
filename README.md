@@ -5,7 +5,7 @@
 - Yeisner Giraldo
 - Samuel Garcia
 - Sebastian Leal
-- David Rios
+- David Rioss
 
 ## Aplicación publicada y repositorio
 
